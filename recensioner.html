@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang=''>
+<head>
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="styler.css">
+   <link href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
+   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="script.js"></script>
+   <script src="http://maps.googleapis.com/maps/api/js"></script>
+       <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+   <title>PizzaBoys</title>
+     
+      <style>
+a {
+  color: #35403c;
+}
+a:hover {
+  color: #29322f;
+  text-decoration: none;
+}
+
+
+
+.content {
+  background: #dd604c;
+  position: relative;
+  transition: all .3s ease-in-out;
+}
+
+.navigation {
+  background: #35403c;
+  height: 100%;
+  position: absolute;
+  transition: all .3s ease-in-out;
+  z-index: 9999;
+}
+.navigation, .navigation a {
+  color: white;
+}
+.navigation.expanded {
+  background: #1e2422;
+  box-shadow: 100px 0 300px 300px rgba(0, 0, 0, 0.5);
+}
+.navigation.expanded + .content {
+  transform: translate3d(50px, 0, 0) rotateY(-10deg);
+  transform-origin: 90% 50%;
+  transform-style: preserve-3d;
+}
+
+.nav-toggler {
+  display: inline-block;
+  font-size: 26px;
+  left: 100%;
+  padding: .5em;
+  position: absolute;
+  text-decoration: none;
+}
+.nav-toggler span {
+  position: relative;
+  z-index: 5;
+}
+.nav-toggler .hide-nav {
+  display: none;
+}
+.expanded .nav-toggler .show-nav {
+  display: none;
+}
+.expanded .nav-toggler .hide-nav {
+  display: inline-block;
+}
+.expanded .nav-toggler:after {
+  border-color: #1e2422 transparent transparent transparent;
+}
+.nav-toggler:after {
+  border-style: solid;
+  border-width: 100px 100px 0 0;
+  border-color: #35403c transparent transparent transparent;
+  content: "";
+  height: 0;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  transition: border-color .3s ease-in-out;
+  width: 0;
+}
+
+.navigation__inner {
+  font-size: 22px;
+  overflow: hidden;
+  transition: all .3s ease-in-out;
+  width: 0;
+}
+.expanded .navigation__inner {
+  display: block;
+  width: 250px;
+}
+.navigation__inner h2 {
+  font-size: 1.2em;
+  font-weight: 400;
+  margin: 0.5em 1.5em 1.2em;
+}
+.navigation__inner ul {
+  list-style: none;
+  margin: 0;
+  padding: 1em 0;
+}
+.navigation__inner li.separator {
+  border-bottom: 1px solid white;
+  margin: 1.5em 0 .5em;
+}
+.navigation__inner a {
+  border-left: 0 solid #cf3e27;
+  display: block;
+  padding: .5em 2em;
+  text-decoration: none;
+  transition: all .2s ease-in-out;
+}
+.navigation__inner a.current {
+  background: #191f1d;
+  border-left-width: 10px;
+}
+.navigation__inner a:hover {
+  background: #101312;
+  border-left-width: 10px;
+}
+
+.drink {
+  padding: 4em;
+}
+
+.drink__title {
+  border-bottom: 5px solid white;
+  position: relative;
+  font-size: 6em;
+  text-align: center;
+  text-shadow: 2px 2px 0 #dd604c, 4px 4px 0 white;
+  text-transform: uppercase;
+}
+.drink__title:before, .drink__title:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+.drink__title:before {
+  border-bottom: 5px solid #dd604c;
+  bottom: -3px;
+  left: -2px;
+}
+.drink__title:after {
+  border-bottom: 5px solid #35403c;
+  bottom: -1px;
+  left: -4px;
+}
+
+.drink__content {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+.drink__content:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.drink__content h2 {
+  font-size: 1.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+}
+          .knapp {font-family: arial}
+
+</style>
+      
+</head>
+<body>
+
+ <div class='page'>
+    <div class="navigation" id="navigation">
+  <a class="nav-toggler" href="#" id="navToggler">
+    <span class="show-nav">&#9776;</span>
+    <span class="hide-nav">&times;</span>
+  </a>
+  <div class="navigation__inner">
+    <ul>
+      <li>
+        <h2>Nyköping-Pizza</h2>
+      </li>
+      <li><a class="current" href="index.html">Pizza-Karta</a></li>
+      <li><a href="recensioner.html">Recensioner</a></li>
+      <li><a href="paradis.html">Stoffes paradis</a></li>
+      <li class="separator"></li>
+    </ul>
+  </div>
+</div>
+
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+<script>
+(function ($, window, document, undefined) {
+    $(function () {
+        var $navigation = $('#navigation'), $navToggler = $('#navToggler');
+        $('#navToggler').on('click', function (e) {
+            e.preventDefault();
+            $navigation.toggleClass('expanded');
+        });
+    });
+}(jQuery, this, this.document));
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<style class="cp-pen-styles">
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@-webkit-keyframes 
+fill {  0% {
+ width: 0%;
+ height: 1px;
+}
+ 50% {
+ width: 100%;
+ height: 1px;
+}
+ 100% {
+ width: 100%;
+ height: 100%;
+ background: #fff;
+}
+}
+@keyframes 
+fill {  0% {
+ width: 0%;
+ height: 1px;
+}
+ 50% {
+ width: 100%;
+ height: 1px;
+}
+ 100% {
+ width: 100%;
+ height: 100%;
+ background: #fff;
+}
+}
+@-webkit-keyframes 
+fillColour {  0% {
+ color: #fff;
+}
+ 50% {
+ color: #fff;
+}
+ 100% {
+ color: #333;
+}
+}
+@keyframes 
+fillColour {  0% {
+ color: #fff;
+}
+ 50% {
+ color: #fff;
+}
+ 100% {
+ color: #333;
+}
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Kaushan Script', sans-serif;
+}
+
+body {
+  overflow: hidden;
+  font-size: 100%;
+}
+
+nav {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 100;
+  height: 100vh;
+  left: 0;
+  width: 10vw;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+nav ul {
+  list-style-type: none;
+  height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+nav a, nav a:visited, nav a:active {
+  text-decoration: none;
+  color: #fff;
+}
+
+nav a {
+  -webkit-transition: color 2s, background 1s;
+  transition: color 2s, background 1s;
+  padding: 10px;
+  position: relative;
+  z-index: 0;
+}
+
+nav a.active { background: rgba(0, 0, 0, 0.9); }
+
+nav a::before {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 0%;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  background: #555;
+  z-index: -1;
+}
+
+nav a:hover {
+  -webkit-animation: fillColour 0.7s forwards ease-in-out;
+  animation: fillColour 0.7s forwards ease-in-out;
+}
+
+nav a:hover::before {
+  -webkit-animation: fill 0.7s forwards ease-in-out;
+  animation: fill 0.7s forwards ease-in-out;
+  opacity: 1;
+}
+
+.slides {
+  width: 500vw;
+  height: 100vh;
+  -webkit-transition: -webkit-transform 0.8s ease;
+  transition: transform 0.8s ease;
+}
+
+.slides .slide {
+  height: 100vh;
+  width: 100vw;
+  background: pink;
+  float: left;
+  text-align: center;
+  background-size: cover;
+}
+
+.slides .slide .content {
+  width: 80vw;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  margin: 35vh 0 0 15vw;
+  border-radius: 5px;
+}
+
+.slides .slide .content p {
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+}
+
+.slides .slide:nth-child(1) { background-image: url(http://i.imgur.com/SJQgpyE.jpg);}
+
+.slides .slide:nth-child(2) { background-image: url(http://i.imgur.com/bwYfCoJ.jpg); }
+
+.slides .slide:nth-child(3) { background-image: url(http://i.imgur.com/TXwDVdM.jpg); }
+
+.slides .slide:nth-child(4) { background-image: url(http://i.imgur.com/m0MVVOK.jpg); }
+
+.slides .slide:nth-child(5) { background-image: url(http://i.imgur.com/l2ENbpk.jpg); }
+
+.slides .slide img { width: 100%; }
+</style>
+</head>
+
+<body>
+<nav>
+  <ul>
+    <li><a href="#1">29an</a></li>
+    <li><a href="#2">Afrodite</a></li>
+    <li><a href="#3">American</a></li>
+    <li><a href="#4">Opera</a></li>
+    <li><a href="#5">Fazana</a></li>
+  </ul>
+</nav>
+<div class="slides">
+  <div id="1" class="slide">
+    <div class="content">
+      <h2>29an</h2>
+      <p>Jag tycker att maten på 29an är väldigt god och prisvärd. Personalen här är även trevlig och gör maten snabbt så man behöver aldrig vänta längre än en kvar. Personalen bjuder även ibland på dricka eller andra saker om man är lite utav en stammkund. När det kommer till lokalerna så är köket fint men matsalen ifrågasätts och det är även väldigt litet. Vitlökssåsen och Beasåsen är god. Priset är mycket billigt, 29kr för massa pizzor på menyn. Tillbehören man kan köpa så som pizza salad är bra. Overall 10/10 från mig. <br>-Bosse</p>
+    </div>
+  </div>
+  <div id="2" class="slide">
+    <div class="content">
+      <h2>Afrodite</h2>
+      <p>Maten är bra men när det kommer till kebaben så är det gyros vilket man får avgöra från person till person om det är bra grejjer eller inte. Personalen är väldigt trevlig och lokalerna är fräscha. Såsen tycker vi är den bästa i hela nyköping, de häller även på mycket sås så det är även det upp till varje individ om den vill ha mycket sås. Priset är dyrt. Overall 8/10. <br>-Emil och Robin</p>
+    </div>
+  </div>
+  <div id="3" class="slide">
+    <div class="content">
+      <h2>American</h2>
+      <p>American har nice pizza och schyssta anställda. De har även fina lokaler men stark såsen är svag. Priset tycker jag är lagom och jag ger American overall 7/10 <br>-Stoffe(Från trosa så < Iq75) </p>
+    </div>
+  </div>
+  <div id="4" class="slide">
+    <div class="content">
+      <h2>Opera</h2>
+      <p>Har helt okej pizza men personalen kan vara svår att förstå på telefon. Lokalerna är också helt okej samt såsen är ganska bra. Priset är ungefär medel och vi ger Opera overall 5/10. <br>-Emil</p>
+    </div>
+  </div>
+  <div id="5" class="slide">
+    <div class="content">
+      <h2>Fazana</h2>
+      <p>När det kommer till maten har fazana för hårda och stora kanter med för lite topping, men övrigt så är pizzan bra. Personalen är trevlig och lokalerna är fina. Priset är väldigt högt. Vi ger den overall 6/10. <br>-Jakob och Bosse</p>
+    </div>
+  </div>
+</div>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js'></script> 
+<script>
+$(function () {
+    function showSlide(n) {
+        $('body').unbind('mousewheel');
+        currSlide += n;
+        currSlide = currSlide <= 0 ? 0 : currSlide >= $slide.length - 1 ? $slide.length - 1 : currSlide;
+        var displacment = window.innerWidth * currSlide;
+        $('.slides').css('transform', 'translateX(-' + displacment + 'px)');
+        setTimeout(function () {
+            $('body').bind('mousewheel', mouseEvent);
+        }, 800);
+        $('nav a.active').removeClass('active');
+        $($('a')[currSlide]).addClass('active');
+    }
+    function mouseEvent(e, delta) {
+        showSlide(delta >= 0 ? 1 : -1);
+        e.preventDefault();
+    }
+    $('nav a').click(function (e) {
+        var newslide = parseInt($(this).attr('href')[1]);
+        var diff = newslide - currSlide - 1;
+        showSlide(diff);
+        e.preventDefault();
+    });
+    $(window).resize(function () {
+        var displacment = window.innerWidth * currSlide;
+        $('.slides').css('transform', 'translateX(-' + displacment + 'px)');
+    });
+    var currSlide = 0;
+    var $slide = $('.slide');
+    $($('nav a')[0]).addClass('active');
+    $('body').bind('mousewheel', mouseEvent);
+});
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</body>
+<html>

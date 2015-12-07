@@ -1,0 +1,76 @@
+/* .tjunia {
+    position: relative;
+    float: right;
+    bottom: 450px;
+}
+
+.fazana {
+    position: relative;
+    float: right;
+    bottom: 600px;
+    
+}
+
+.afrodite {
+    position: absolute;
+float: right;
+    bottom: 1000px;
+    clear: both;
+}
+
+.tjuniap {
+    font-size: 100px;
+    float: right;
+    position: relative;
+    bottom: 770px;
+    
+}
+
+.afrodite {
+    font-size: 100px;
+    float: right;
+    position: relative;
+    bottom: 600px;
+    margin:auto;
+} */
+
+
+.pizzerior {
+    float: right;
+    font-size: 68px;
+    bottom: 750px;
+    position: relative;
+    color: red;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
+}
+
+.pizzerior {
+    line-height: 2.0;
+}
+
+li {
+    font-family: 'Kaushan Script', cursive
+}
+
+.current {
+    font-family: 'Kaushan Script', cursive
+}
+
+body {
+    overflow-y: hidden;
+}
