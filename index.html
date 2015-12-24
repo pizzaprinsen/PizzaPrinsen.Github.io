@@ -180,18 +180,12 @@ a:hover {
         font-size: 12px;
       }
     
-           .knapp {
-               position: relative;
-               bottom: auto;
-               margin: auto;
-               
-           } 
            
       #map {
          
-      width: 800px;
-        height: 640px;
-        float: left;        
+      width: 1350px;
+        height: 980px;
+        float: left;   
       }
         
            
@@ -278,19 +272,22 @@ a:hover {
  <div id="content">
       <div id="map"></div>
       <div id="directions"></div>
+      
+          <div id="actions" class="knapp">
+      till
+      <input id="to" value="Välj pizzeria åt höger"/>
+      från
+     <input id="from" value="Skriv var du är" class="knapp"/>
+
+      <button onclick="route()" class="knapp">Vägbeskrivning</button>
+    </div>
+
+      
     </div>
     
 
     </div>
 </div>
-    <div id="actions" class="knapp">
-      från
-      <input id="to" value="Välj pizzeria åt höger"/>
-      till
-     <input id="from" value="Skriv var du är" class="knapp"/>
-
-      <button onclick="route()" class="knapp">Vägbeskrivning</button>
-    </div>
     
 <!--    <img class="tjunia" src="29an.png" alt="29">
     <img class="fazana" src="fazana.png" alt="fazana">
