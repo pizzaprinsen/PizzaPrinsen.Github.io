@@ -33,6 +33,11 @@ float: right;
     margin:auto;
 } */
 
+body {
+   transform: scale(0.9999999);
+/*   transform-origin: 10% 10%; */
+}
+
 
 .pizzerior {
     float: right;
